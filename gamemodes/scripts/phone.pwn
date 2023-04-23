@@ -1,6 +1,10 @@
 #include <YSI_Coding\y_hooks>
 // #include <YSI_Coding\y_malloc>
 
+//phone global position
+new Float:phx = 492;
+new Float:phy = 187;
+
 #define PhoneHomeIcons 9
 
 //phone contect variables
@@ -19,10 +23,10 @@ static PlayerText:applelogo[MAX_PLAYERS] = {PlayerText:INVALID_TEXT_DRAW, ...};
 static PlayerText:bootdots[MAX_PLAYERS] = {PlayerText:INVALID_TEXT_DRAW, ...};
 
 //global textdraws
-static Text:p_nav_time = Text:INVALID_TEXT_DRAW;
 
 //playertextdraw commons
 static PlayerText:p_container[MAX_PLAYERS] = {PlayerText:INVALID_TEXT_DRAW, ...};
+static PlayerText:p_nav_time[MAX_PLAYERS] = {PlayerText:INVALID_TEXT_DRAW, ...};
 static PlayerText:p_nav_battery[MAX_PLAYERS] = {PlayerText:INVALID_TEXT_DRAW, ...};
 static PlayerText:p_nav_network[MAX_PLAYERS] = {PlayerText:INVALID_TEXT_DRAW, ...};
 static PlayerText:p_background[MAX_PLAYERS] = {PlayerText:INVALID_TEXT_DRAW, ...};
@@ -246,7 +250,7 @@ stock PhoneContectsBase(playerid, bool:Hide)
         PhoneNavbar(playerid, false);
 
 
-        pContect_bcreate[playerid] = CreatePlayerTextDraw(playerid, 585.000, 206.000, "Add Contact");
+        pContect_bcreate[playerid] = CreatePlayerTextDraw(playerid, phx + 93, phy + 19, "Add Contact");
         PlayerTextDrawLetterSize(playerid, pContect_bcreate[playerid], 0.194, 1.098);
         PlayerTextDrawTextSize(playerid, pContect_bcreate[playerid], 10.000, 55.000);
         PlayerTextDrawAlignment(playerid, pContect_bcreate[playerid], TEXT_DRAW_ALIGN_CENTER);
@@ -258,7 +262,7 @@ stock PhoneContectsBase(playerid, bool:Hide)
         PlayerTextDrawSetProportional(playerid, pContect_bcreate[playerid], true);
         PlayerTextDrawSetSelectable(playerid, pContect_bcreate[playerid], true);
 
-        pContect_bCover[playerid] = CreatePlayerTextDraw(playerid, 499.000, 376.000, "mdl-1005:container");
+        pContect_bCover[playerid] = CreatePlayerTextDraw(playerid, phx + 7, phy + 189, "mdl-1005:container");
         PlayerTextDrawTextSize(playerid, pContect_bCover[playerid], 121.000, 45.000);
         PlayerTextDrawAlignment(playerid, pContect_bCover[playerid], TEXT_DRAW_ALIGN_LEFT);
         PlayerTextDrawColour(playerid, pContect_bCover[playerid], 1887473919);
@@ -268,7 +272,7 @@ stock PhoneContectsBase(playerid, bool:Hide)
         PlayerTextDrawFont(playerid, pContect_bCover[playerid], TEXT_DRAW_FONT_SPRITE_DRAW);
         PlayerTextDrawSetProportional(playerid, pContect_bCover[playerid], true);
 
-        pContect_bpage[playerid] = CreatePlayerTextDraw(playerid, 560.000, 386.000, "0/0");
+        pContect_bpage[playerid] = CreatePlayerTextDraw(playerid, phx + 68, phy + 199, "0/0");
         PlayerTextDrawLetterSize(playerid, pContect_bpage[playerid], 0.209, 1.297);
         PlayerTextDrawAlignment(playerid, pContect_bpage[playerid], TEXT_DRAW_ALIGN_CENTER);
         PlayerTextDrawColour(playerid, pContect_bpage[playerid], -1);
@@ -278,7 +282,7 @@ stock PhoneContectsBase(playerid, bool:Hide)
         PlayerTextDrawFont(playerid, pContect_bpage[playerid], TEXT_DRAW_FONT_2);
         PlayerTextDrawSetProportional(playerid, pContect_bpage[playerid], true);
 
-        pContect_bprev[playerid] =  CreatePlayerTextDraw(playerid, 516.000, 384.000, "mdl-1006:left");
+        pContect_bprev[playerid] =  CreatePlayerTextDraw(playerid, phx + 24, phy + 197, "mdl-1006:left");
         PlayerTextDrawTextSize(playerid, pContect_bprev[playerid], 20.000, 20.000);
         PlayerTextDrawAlignment(playerid, pContect_bprev[playerid], TEXT_DRAW_ALIGN_LEFT);
         PlayerTextDrawColour(playerid, pContect_bprev[playerid], -1);
@@ -289,7 +293,7 @@ stock PhoneContectsBase(playerid, bool:Hide)
         PlayerTextDrawSetProportional(playerid, pContect_bprev[playerid], true);
         PlayerTextDrawSetSelectable(playerid, pContect_bprev[playerid], true);
 
-        pContect_bNext[playerid] = CreatePlayerTextDraw(playerid, 581.000, 384.000, "mdl-1006:right");
+        pContect_bNext[playerid] = CreatePlayerTextDraw(playerid, phx + 89, phy + 197, "mdl-1006:right");
         PlayerTextDrawTextSize(playerid, pContect_bNext[playerid], 20.000, 20.000);
         PlayerTextDrawAlignment(playerid, pContect_bNext[playerid], TEXT_DRAW_ALIGN_LEFT);
         PlayerTextDrawColour(playerid, pContect_bNext[playerid], -1);
@@ -309,11 +313,11 @@ stock PhoneContectsBase(playerid, bool:Hide)
 
         backbtn(playerid, false);
 
-        new Float:y = 224.0;
+        new Float:y = phy + 37;
 
         for (new i = 0; i < p_Max_Contect_Perpage; i++)
         {
-            pContect_Cover[playerid][i] = CreatePlayerTextDraw(playerid, 502.000, y, "mdl-1005:container");
+            pContect_Cover[playerid][i] = CreatePlayerTextDraw(playerid, phx + 10, y, "mdl-1005:container");
             PlayerTextDrawTextSize(playerid, pContect_Cover[playerid][i], 115.000, 27.000);
             PlayerTextDrawAlignment(playerid, pContect_Cover[playerid][i], TEXT_DRAW_ALIGN_LEFT);
             PlayerTextDrawColour(playerid, pContect_Cover[playerid][i], -1061109505);
@@ -324,7 +328,7 @@ stock PhoneContectsBase(playerid, bool:Hide)
             PlayerTextDrawSetProportional(playerid, pContect_Cover[playerid][i], true);
             PlayerTextDrawSetSelectable(playerid, pContect_Cover[playerid][i], true);
 
-            pContect_Icon[playerid][i] = CreatePlayerTextDraw(playerid, 507.000, y + 6, "mdl-1006:person");
+            pContect_Icon[playerid][i] = CreatePlayerTextDraw(playerid, phx + 15, y + 6, "mdl-1006:person");
             PlayerTextDrawTextSize(playerid, pContect_Icon[playerid][i], 14.000, 14.000);
             PlayerTextDrawAlignment(playerid, pContect_Icon[playerid][i], TEXT_DRAW_ALIGN_LEFT);
             PlayerTextDrawColour(playerid, pContect_Icon[playerid][i], -1);
@@ -334,7 +338,7 @@ stock PhoneContectsBase(playerid, bool:Hide)
             PlayerTextDrawFont(playerid, pContect_Icon[playerid][i], TEXT_DRAW_FONT_SPRITE_DRAW);
             PlayerTextDrawSetProportional(playerid, pContect_Icon[playerid][i], true);
 
-            pContect_NameNum[playerid][i] = CreatePlayerTextDraw(playerid, 522.000, y + 4, "Example Name ~n~Examplenum12345");
+            pContect_NameNum[playerid][i] = CreatePlayerTextDraw(playerid, phx + 30, y + 4, "Example Name ~n~Examplenum12345");
             PlayerTextDrawLetterSize(playerid, pContect_NameNum[playerid][i], 0.250, 1.000);
             PlayerTextDrawTextSize(playerid, pContect_NameNum[playerid][i], 608.000, 0.000);
             PlayerTextDrawAlignment(playerid, pContect_NameNum[playerid][i], TEXT_DRAW_ALIGN_LEFT);
@@ -436,7 +440,7 @@ stock PhoneMusic(playerid, bool:Hide)
         PhoneBody(playerid, false, false, 2070474495);
         PhoneNavbar(playerid, false);
 
-        pMusic_page[playerid] = CreatePlayerTextDraw(playerid, 514.000, 206.000, "1/3");
+        pMusic_page[playerid] = CreatePlayerTextDraw(playerid, phx + 22, phy + 19, "1/3");
         PlayerTextDrawLetterSize(playerid, pMusic_page[playerid], 0.209, 1.297);
         PlayerTextDrawAlignment(playerid, pMusic_page[playerid], TEXT_DRAW_ALIGN_CENTER);
         PlayerTextDrawColour(playerid, pMusic_page[playerid], -1);
@@ -446,7 +450,7 @@ stock PhoneMusic(playerid, bool:Hide)
         PlayerTextDrawFont(playerid, pMusic_page[playerid], TEXT_DRAW_FONT_2);
         PlayerTextDrawSetProportional(playerid, pMusic_page[playerid], true);
 
-        pMusic_AddSong[playerid] = CreatePlayerTextDraw(playerid, 585.000, 206.000, "Add Song");
+        pMusic_AddSong[playerid] = CreatePlayerTextDraw(playerid, phx + 93, phy + 19, "Add Song");
         PlayerTextDrawLetterSize(playerid, pMusic_AddSong[playerid], 0.195, 1.098);
         PlayerTextDrawTextSize(playerid, pMusic_AddSong[playerid], 10.000, 47.000);
         PlayerTextDrawAlignment(playerid, pMusic_AddSong[playerid], TEXT_DRAW_ALIGN_CENTER);
@@ -458,7 +462,7 @@ stock PhoneMusic(playerid, bool:Hide)
         PlayerTextDrawSetProportional(playerid, pMusic_AddSong[playerid], true);
         PlayerTextDrawSetSelectable(playerid, pMusic_AddSong[playerid], true);
 
-        pMusic_bCover[playerid] = CreatePlayerTextDraw(playerid, 499.000, 376.000, "mdl-1005:container");
+        pMusic_bCover[playerid] = CreatePlayerTextDraw(playerid, phx + 7, phy + 189, "mdl-1005:container");
         PlayerTextDrawTextSize(playerid, pMusic_bCover[playerid], 121.000, 45.000);
         PlayerTextDrawAlignment(playerid, pMusic_bCover[playerid], TEXT_DRAW_ALIGN_LEFT);
         PlayerTextDrawColour(playerid, pMusic_bCover[playerid], -1976835329);
@@ -468,7 +472,7 @@ stock PhoneMusic(playerid, bool:Hide)
         PlayerTextDrawFont(playerid, pMusic_bCover[playerid], TEXT_DRAW_FONT_SPRITE_DRAW);
         PlayerTextDrawSetProportional(playerid, pMusic_bCover[playerid], true);
 
-        pMusic_bControl[playerid] = CreatePlayerTextDraw(playerid, 541.000, 376.000, "LD_BEAT:chit");
+        pMusic_bControl[playerid] = CreatePlayerTextDraw(playerid, phx + 49, phy + 189, "LD_BEAT:chit");
         PlayerTextDrawTextSize(playerid, pMusic_bControl[playerid], 35.000, 35.000);
         PlayerTextDrawAlignment(playerid, pMusic_bControl[playerid], TEXT_DRAW_ALIGN_LEFT);
         PlayerTextDrawColour(playerid, pMusic_bControl[playerid], -931138817);
@@ -479,7 +483,7 @@ stock PhoneMusic(playerid, bool:Hide)
         PlayerTextDrawSetProportional(playerid, pMusic_bControl[playerid], true);
         PlayerTextDrawSetSelectable(playerid, pMusic_bControl[playerid], true);
 
-        pMusic_bControl_img[playerid] = CreatePlayerTextDraw(playerid, 542.000, 377.000, "mdl-1006:button-play");
+        pMusic_bControl_img[playerid] = CreatePlayerTextDraw(playerid, phx + 50, phy + 190, "mdl-1006:button-play");
         PlayerTextDrawTextSize(playerid, pMusic_bControl_img[playerid], 35.000, 35.000);
         PlayerTextDrawAlignment(playerid, pMusic_bControl_img[playerid], TEXT_DRAW_ALIGN_LEFT);
         PlayerTextDrawColour(playerid, pMusic_bControl_img[playerid], -1);
@@ -489,7 +493,7 @@ stock PhoneMusic(playerid, bool:Hide)
         PlayerTextDrawFont(playerid, pMusic_bControl_img[playerid], TEXT_DRAW_FONT_SPRITE_DRAW);
         PlayerTextDrawSetProportional(playerid, pMusic_bControl_img[playerid], true);
 
-        pMusic_bprev[playerid] = CreatePlayerTextDraw(playerid, 513.000, 382.000, "LD_BEAT:chit");
+        pMusic_bprev[playerid] = CreatePlayerTextDraw(playerid, phx + 21, phy + 195, "LD_BEAT:chit");
         PlayerTextDrawTextSize(playerid, pMusic_bprev[playerid], 25.000, 25.000);
         PlayerTextDrawAlignment(playerid, pMusic_bprev[playerid], TEXT_DRAW_ALIGN_LEFT);
         PlayerTextDrawColour(playerid, pMusic_bprev[playerid], -931138817);
@@ -500,7 +504,7 @@ stock PhoneMusic(playerid, bool:Hide)
         PlayerTextDrawSetProportional(playerid, pMusic_bprev[playerid], true);
         PlayerTextDrawSetSelectable(playerid, pMusic_bprev[playerid], true);
 
-        pMusic_bprev_img[playerid] = CreatePlayerTextDraw(playerid, 514.000, 383.000, "mdl-1006:button-prev");
+        pMusic_bprev_img[playerid] = CreatePlayerTextDraw(playerid, phx + 22, phy + 196, "mdl-1006:button-prev");
         PlayerTextDrawTextSize(playerid, pMusic_bprev_img[playerid], 25.000, 25.000);
         PlayerTextDrawAlignment(playerid, pMusic_bprev_img[playerid], TEXT_DRAW_ALIGN_LEFT);
         PlayerTextDrawColour(playerid, pMusic_bprev_img[playerid], -1);
@@ -510,7 +514,7 @@ stock PhoneMusic(playerid, bool:Hide)
         PlayerTextDrawFont(playerid, pMusic_bprev_img[playerid], TEXT_DRAW_FONT_SPRITE_DRAW);
         PlayerTextDrawSetProportional(playerid, pMusic_bprev_img[playerid], true);
 
-        pMusic_bnext[playerid] = CreatePlayerTextDraw(playerid, 578.000, 382.000, "LD_BEAT:chit");
+        pMusic_bnext[playerid] = CreatePlayerTextDraw(playerid, phx + 86, phy + 195, "LD_BEAT:chit");
         PlayerTextDrawTextSize(playerid, pMusic_bnext[playerid], 25.000, 25.000);
         PlayerTextDrawAlignment(playerid, pMusic_bnext[playerid], TEXT_DRAW_ALIGN_LEFT);
         PlayerTextDrawColour(playerid, pMusic_bnext[playerid], -931138817);
@@ -521,7 +525,7 @@ stock PhoneMusic(playerid, bool:Hide)
         PlayerTextDrawSetProportional(playerid, pMusic_bnext[playerid], true);
         PlayerTextDrawSetSelectable(playerid, pMusic_bnext[playerid], true);
 
-        pMusic_bnext_img[playerid] = CreatePlayerTextDraw(playerid, 579.000, 383.000, "mdl-1006:button-next");
+        pMusic_bnext_img[playerid] = CreatePlayerTextDraw(playerid, phx + 87, phy + 196, "mdl-1006:button-next");
         PlayerTextDrawTextSize(playerid, pMusic_bnext_img[playerid], 25.000, 25.000);
         PlayerTextDrawAlignment(playerid, pMusic_bnext_img[playerid], TEXT_DRAW_ALIGN_LEFT);
         PlayerTextDrawColour(playerid, pMusic_bnext_img[playerid], -1);
@@ -543,12 +547,12 @@ stock PhoneMusic(playerid, bool:Hide)
 
         checkaudiostream(playerid);
         backbtn(playerid, false);
-        new Float:y = 224.0;
+        new Float:y = phy + 37;
 
         for (new i = 0; i < p_Max_Contect_Perpage; i++)
         {
 
-            pMusic_cover[playerid][i] = CreatePlayerTextDraw(playerid, 502.000, y, "mdl-1005:container");
+            pMusic_cover[playerid][i] = CreatePlayerTextDraw(playerid, phx + 10, y, "mdl-1005:container");
             PlayerTextDrawTextSize(playerid, pMusic_cover[playerid][i], 115.000, 27.000);
             PlayerTextDrawAlignment(playerid, pMusic_cover[playerid][i], TEXT_DRAW_ALIGN_LEFT);
             PlayerTextDrawColour(playerid, pMusic_cover[playerid][i], -1724723969);
@@ -559,7 +563,7 @@ stock PhoneMusic(playerid, bool:Hide)
             PlayerTextDrawSetProportional(playerid, pMusic_cover[playerid][i], true);
             PlayerTextDrawSetSelectable(playerid, pMusic_cover[playerid][i], true);
 
-            pMusic_chit[playerid][i] = CreatePlayerTextDraw(playerid, 503.000, y + 1, "LD_BEAT:chit");
+            pMusic_chit[playerid][i] = CreatePlayerTextDraw(playerid, phx + 11, y + 1, "LD_BEAT:chit");
             PlayerTextDrawTextSize(playerid, pMusic_chit[playerid][i], 25.000, 25.000);
             PlayerTextDrawAlignment(playerid, pMusic_chit[playerid][i], TEXT_DRAW_ALIGN_LEFT);
             PlayerTextDrawColour(playerid, pMusic_chit[playerid][i], -931138817);
@@ -569,7 +573,7 @@ stock PhoneMusic(playerid, bool:Hide)
             PlayerTextDrawFont(playerid, pMusic_chit[playerid][i], TEXT_DRAW_FONT_SPRITE_DRAW);
             PlayerTextDrawSetProportional(playerid, pMusic_chit[playerid][i], true);
 
-            pMusic_play[playerid][i] = CreatePlayerTextDraw(playerid, 504.000, y + 2, "mdl-1006:button-play");
+            pMusic_play[playerid][i] = CreatePlayerTextDraw(playerid, phx + 12, y + 2, "mdl-1006:button-play");
             PlayerTextDrawTextSize(playerid, pMusic_play[playerid][i], 25.000, 25.000);
             PlayerTextDrawAlignment(playerid, pMusic_play[playerid][i], TEXT_DRAW_ALIGN_LEFT);
             PlayerTextDrawColour(playerid, pMusic_play[playerid][i], -1);
@@ -579,7 +583,7 @@ stock PhoneMusic(playerid, bool:Hide)
             PlayerTextDrawFont(playerid, pMusic_play[playerid][i], TEXT_DRAW_FONT_SPRITE_DRAW);
             PlayerTextDrawSetProportional(playerid, pMusic_play[playerid][i], true);
 
-            pMusic_SongName[playerid][i] = CreatePlayerTextDraw(playerid, 528.000, y + 7, "Song Name");
+            pMusic_SongName[playerid][i] = CreatePlayerTextDraw(playerid, phx + 36, y + 7, "Song Name");
             PlayerTextDrawLetterSize(playerid, pMusic_SongName[playerid][i], 0.250, 1.000);
             PlayerTextDrawTextSize(playerid, pMusic_SongName[playerid][i], 608.000, 0.000);
             PlayerTextDrawAlignment(playerid, pMusic_SongName[playerid][i], TEXT_DRAW_ALIGN_LEFT);
@@ -626,7 +630,7 @@ stock PhoneHomeIcon(playerid, bool:Hide)
 {
     if (!Hide)
     {
-        p_icon[playerid][0] = CreatePlayerTextDraw(playerid, 502.000, 369.000, "mdl-1005:container");
+        p_icon[playerid][0] = CreatePlayerTextDraw(playerid, phx + 10, phx + 182, "mdl-1005:container");
         PlayerTextDrawTextSize(playerid, p_icon[playerid][0], 115.000, 40.000);
         PlayerTextDrawAlignment(playerid, p_icon[playerid][0], TEXT_DRAW_ALIGN_LEFT);
         PlayerTextDrawColour(playerid, p_icon[playerid][0], 70);
@@ -636,7 +640,7 @@ stock PhoneHomeIcon(playerid, bool:Hide)
         PlayerTextDrawFont(playerid, p_icon[playerid][0], TEXT_DRAW_FONT_SPRITE_DRAW);
         PlayerTextDrawSetProportional(playerid, p_icon[playerid][0], true);
 
-        p_icon[playerid][1] = CreatePlayerTextDraw(playerid, 510.000, 222.000, "mdl-1006:notes");
+        p_icon[playerid][1] = CreatePlayerTextDraw(playerid, phx + 18, phy + 35, "mdl-1006:notes");
         PlayerTextDrawTextSize(playerid, p_icon[playerid][1], 21.000, 24.000);
         PlayerTextDrawAlignment(playerid, p_icon[playerid][1], TEXT_DRAW_ALIGN_LEFT);
         PlayerTextDrawColour(playerid, p_icon[playerid][1], -1);
@@ -647,7 +651,7 @@ stock PhoneHomeIcon(playerid, bool:Hide)
         PlayerTextDrawSetProportional(playerid, p_icon[playerid][1], true);
         PlayerTextDrawSetSelectable(playerid, p_icon[playerid][1], true);
 
-        p_icon[playerid][2] = CreatePlayerTextDraw(playerid, 536.000, 222.000, "mdl-1006:camera");
+        p_icon[playerid][2] = CreatePlayerTextDraw(playerid, phx + 44, phy + 35, "mdl-1006:camera");
         PlayerTextDrawTextSize(playerid, p_icon[playerid][2], 21.000, 24.000);
         PlayerTextDrawAlignment(playerid, p_icon[playerid][2], TEXT_DRAW_ALIGN_LEFT);
         PlayerTextDrawColour(playerid, p_icon[playerid][2], -1);
@@ -659,7 +663,7 @@ stock PhoneHomeIcon(playerid, bool:Hide)
         PlayerTextDrawSetSelectable(playerid, p_icon[playerid][2], true);
 
 
-        p_icon[playerid][3] = CreatePlayerTextDraw(playerid, 561.000, 222.000, "mdl-1006:music");
+        p_icon[playerid][3] = CreatePlayerTextDraw(playerid, phx + 69, phy + 35, "mdl-1006:music");
         PlayerTextDrawTextSize(playerid, p_icon[playerid][3], 21.000, 24.000);
         PlayerTextDrawAlignment(playerid, p_icon[playerid][3], TEXT_DRAW_ALIGN_LEFT);
         PlayerTextDrawColour(playerid, p_icon[playerid][3], -1);
@@ -670,7 +674,7 @@ stock PhoneHomeIcon(playerid, bool:Hide)
         PlayerTextDrawSetProportional(playerid, p_icon[playerid][3], true);
         PlayerTextDrawSetSelectable(playerid, p_icon[playerid][3], true);
 
-        p_icon[playerid][4] = CreatePlayerTextDraw(playerid, 586.000, 222.000, "mdl-1006:calculator");
+        p_icon[playerid][4] = CreatePlayerTextDraw(playerid, phx + 94, phy + 35, "mdl-1006:calculator");
         PlayerTextDrawTextSize(playerid, p_icon[playerid][4], 21.000, 24.000);
         PlayerTextDrawAlignment(playerid, p_icon[playerid][4], TEXT_DRAW_ALIGN_LEFT);
         PlayerTextDrawColour(playerid, p_icon[playerid][4], -1);
@@ -681,7 +685,7 @@ stock PhoneHomeIcon(playerid, bool:Hide)
         PlayerTextDrawSetProportional(playerid, p_icon[playerid][4], true);
         PlayerTextDrawSetSelectable(playerid, p_icon[playerid][4], true);
 
-        p_icon[playerid][5] = CreatePlayerTextDraw(playerid, 510.000, 376.000, "mdl-1006:phone");
+        p_icon[playerid][5] = CreatePlayerTextDraw(playerid, phx + 18, phy + 189, "mdl-1006:phone");
         PlayerTextDrawTextSize(playerid, p_icon[playerid][5], 21.000, 24.000);
         PlayerTextDrawAlignment(playerid, p_icon[playerid][5], TEXT_DRAW_ALIGN_LEFT);
         PlayerTextDrawColour(playerid, p_icon[playerid][5], -1);
@@ -692,7 +696,7 @@ stock PhoneHomeIcon(playerid, bool:Hide)
         PlayerTextDrawSetProportional(playerid, p_icon[playerid][5], true);
         PlayerTextDrawSetSelectable(playerid, p_icon[playerid][5], true);
 
-        p_icon[playerid][6] = CreatePlayerTextDraw(playerid, 536.000, 376.000, "mdl-1006:settings");
+        p_icon[playerid][6] = CreatePlayerTextDraw(playerid, phx + 44, phy + 189, "mdl-1006:settings");
         PlayerTextDrawTextSize(playerid, p_icon[playerid][6], 21.000, 24.000);
         PlayerTextDrawAlignment(playerid, p_icon[playerid][6], TEXT_DRAW_ALIGN_LEFT);
         PlayerTextDrawColour(playerid, p_icon[playerid][6], -1);
@@ -703,7 +707,7 @@ stock PhoneHomeIcon(playerid, bool:Hide)
         PlayerTextDrawSetProportional(playerid, p_icon[playerid][6], true);
         PlayerTextDrawSetSelectable(playerid, p_icon[playerid][6], true);
 
-        p_icon[playerid][7] = CreatePlayerTextDraw(playerid, 561.000, 376.000, "mdl-1006:safari");
+        p_icon[playerid][7] = CreatePlayerTextDraw(playerid, phx + 69, phy + 189, "mdl-1006:safari");
         PlayerTextDrawTextSize(playerid, p_icon[playerid][7], 21.000, 24.000);
         PlayerTextDrawAlignment(playerid, p_icon[playerid][7], TEXT_DRAW_ALIGN_LEFT);
         PlayerTextDrawColour(playerid, p_icon[playerid][7], -1);
@@ -714,7 +718,7 @@ stock PhoneHomeIcon(playerid, bool:Hide)
         PlayerTextDrawSetProportional(playerid, p_icon[playerid][7], true);
         PlayerTextDrawSetSelectable(playerid, p_icon[playerid][7], true);
 
-        p_icon[playerid][8] = CreatePlayerTextDraw(playerid, 586.000, 376.000, "mdl-1006:contact");
+        p_icon[playerid][8] = CreatePlayerTextDraw(playerid, phx + 94, phy + 189, "mdl-1006:contact");
         PlayerTextDrawTextSize(playerid, p_icon[playerid][8], 21.000, 24.000);
         PlayerTextDrawAlignment(playerid, p_icon[playerid][8], TEXT_DRAW_ALIGN_LEFT);
         PlayerTextDrawColour(playerid, p_icon[playerid][8], -1);
@@ -745,7 +749,7 @@ stock PhoneNavbar(playerid, bool:Hide)
     if (!Hide)
     {
 
-        p_nav_network[playerid] = CreatePlayerTextDraw(playerid, 580.000, 192.000, (Settings[playerid][apmode] == 1) ? "mdl-1006:airplane" : "mdl-1006:connectivity-bar");
+        p_nav_network[playerid] = CreatePlayerTextDraw(playerid, phx + 88, phy + 5, (Settings[playerid][apmode] == 1) ? "mdl-1006:airplane" : "mdl-1006:connectivity-bar");
         PlayerTextDrawTextSize(playerid, p_nav_network[playerid], 15.000, 11.000);
         PlayerTextDrawAlignment(playerid, p_nav_network[playerid], TEXT_DRAW_ALIGN_LEFT);
         PlayerTextDrawColour(playerid, p_nav_network[playerid], -1);
@@ -755,7 +759,7 @@ stock PhoneNavbar(playerid, bool:Hide)
         PlayerTextDrawFont(playerid, p_nav_network[playerid], TEXT_DRAW_FONT_SPRITE_DRAW);
         PlayerTextDrawSetProportional(playerid, p_nav_network[playerid], true);
 
-        p_nav_battery[playerid] = CreatePlayerTextDraw(playerid, 594.000, 194.000, "mdl-1007:battery-80");
+        p_nav_battery[playerid] = CreatePlayerTextDraw(playerid, phx + 102, phy + 7, "mdl-1007:battery-80");
         PlayerTextDrawTextSize(playerid, p_nav_battery[playerid], 15.000, 9.000);
         PlayerTextDrawAlignment(playerid, p_nav_battery[playerid], TEXT_DRAW_ALIGN_LEFT);
         PlayerTextDrawColour(playerid, p_nav_battery[playerid], -1);
@@ -765,7 +769,19 @@ stock PhoneNavbar(playerid, bool:Hide)
         PlayerTextDrawFont(playerid, p_nav_battery[playerid], TEXT_DRAW_FONT_SPRITE_DRAW);
         PlayerTextDrawSetProportional(playerid, p_nav_battery[playerid], true);
 
-        TextDrawShowForPlayer(playerid, p_nav_time);
+
+        p_nav_time[playerid] = CreatePlayerTextDraw(playerid, phx+24, phy+6, "00:00");
+        PlayerTextDrawLetterSize(playerid, p_nav_time[playerid], 0.148, 0.998);
+        PlayerTextDrawTextSize(playerid, p_nav_time[playerid], 0.000, 20.000);
+        PlayerTextDrawAlignment(playerid, p_nav_time[playerid], TEXT_DRAW_ALIGN_CENTER);
+        PlayerTextDrawColour(playerid, p_nav_time[playerid], -1);
+        PlayerTextDrawSetShadow(playerid, p_nav_time[playerid], 1);
+        PlayerTextDrawSetOutline(playerid, p_nav_time[playerid], 1);
+        PlayerTextDrawBackgroundColour(playerid, p_nav_time[playerid], 150);
+        PlayerTextDrawFont(playerid, p_nav_time[playerid], TEXT_DRAW_FONT_2);
+        PlayerTextDrawSetProportional(playerid, p_nav_time[playerid], true);
+
+        PlayerTextDrawShow(playerid, p_nav_time[playerid]);
         PlayerTextDrawShow(playerid, p_nav_network[playerid]);
         PlayerTextDrawShow(playerid, p_nav_battery[playerid]);
 
@@ -773,7 +789,7 @@ stock PhoneNavbar(playerid, bool:Hide)
     else
     {
 
-        TextDrawHideForPlayer(playerid, p_nav_time);
+        PlayerTextDrawDestroy(playerid, p_nav_time[playerid]);
         PlayerTextDrawDestroy(playerid, p_nav_network[playerid]);
         PlayerTextDrawDestroy(playerid, p_nav_battery[playerid]);
 
@@ -808,7 +824,7 @@ stock PhoneBody(playerid, bool:imagebackground, bool:Hide, bgColour = -1)
         if (imagebackground)
         {
 
-            p_background[playerid] = CreatePlayerTextDraw(playerid, 499.000, 191.000, Settings[playerid][currentWallpaper]);
+            p_background[playerid] = CreatePlayerTextDraw(playerid, phx + 7, phy + 4, Settings[playerid][currentWallpaper]);
             PlayerTextDrawTextSize(playerid, p_background[playerid], 118.000, 232.000);
             PlayerTextDrawAlignment(playerid, p_background[playerid], TEXT_DRAW_ALIGN_LEFT);
             PlayerTextDrawColour(playerid, p_background[playerid], -1);
@@ -819,7 +835,7 @@ stock PhoneBody(playerid, bool:imagebackground, bool:Hide, bgColour = -1)
             PlayerTextDrawSetProportional(playerid, p_background[playerid], true);
 
 
-            p_body[playerid] = CreatePlayerTextDraw(playerid, 492.000, 187.000, "mdl-1005:body");
+            p_body[playerid] = CreatePlayerTextDraw(playerid, phx, phy, "mdl-1005:body");
             PlayerTextDrawTextSize(playerid, p_body[playerid], 130.000, 240.000);
             PlayerTextDrawAlignment(playerid, p_body[playerid], TEXT_DRAW_ALIGN_LEFT);
             PlayerTextDrawColour(playerid, p_body[playerid], -1);
@@ -835,7 +851,7 @@ stock PhoneBody(playerid, bool:imagebackground, bool:Hide, bgColour = -1)
         else
         {
 
-            p_whitebackground[playerid] = CreatePlayerTextDraw(playerid, 558.000, 195.000, "_");
+            p_whitebackground[playerid] = CreatePlayerTextDraw(playerid, phx + 66, phy + 8, "_");
             PlayerTextDrawLetterSize(playerid, p_whitebackground[playerid], 0.300, 24.697);
             PlayerTextDrawTextSize(playerid, p_whitebackground[playerid], 0.000, 114.000);
             PlayerTextDrawAlignment(playerid, p_whitebackground[playerid], TEXT_DRAW_ALIGN_CENTER);
@@ -848,7 +864,7 @@ stock PhoneBody(playerid, bool:imagebackground, bool:Hide, bgColour = -1)
             PlayerTextDrawFont(playerid, p_whitebackground[playerid], TEXT_DRAW_FONT_1);
             PlayerTextDrawSetProportional(playerid, p_whitebackground[playerid], true);
 
-            p_body[playerid] = CreatePlayerTextDraw(playerid, 492.000, 187.000, "mdl-1005:body");
+            p_body[playerid] = CreatePlayerTextDraw(playerid, phx, phy, "mdl-1005:body");
             PlayerTextDrawTextSize(playerid, p_body[playerid], 130.000, 240.000);
             PlayerTextDrawAlignment(playerid, p_body[playerid], TEXT_DRAW_ALIGN_LEFT);
             PlayerTextDrawColour(playerid, p_body[playerid], -1);
@@ -883,7 +899,7 @@ stock PhoneCalculator(playerid, bool:Hide)
         PhoneNavbar(playerid, false);
         backbtn(playerid, false);
 
-        p_calculator[playerid][0] = CreatePlayerTextDraw(playerid, 515.000, 266.000, "AC");
+        p_calculator[playerid][0] = CreatePlayerTextDraw(playerid, phx + 23, phy + 79, "AC");
         PlayerTextDrawLetterSize(playerid, p_calculator[playerid][0], 0.409, 2.098);
         PlayerTextDrawTextSize(playerid, p_calculator[playerid][0], 20.000, 20.000);
         PlayerTextDrawAlignment(playerid, p_calculator[playerid][0], TEXT_DRAW_ALIGN_CENTER);
@@ -897,7 +913,7 @@ stock PhoneCalculator(playerid, bool:Hide)
         PlayerTextDrawSetProportional(playerid, p_calculator[playerid][0], true);
         PlayerTextDrawSetSelectable(playerid, p_calculator[playerid][0], true);
 
-        p_calculator[playerid][1] = CreatePlayerTextDraw(playerid, 543.000, 266.000, "C");
+        p_calculator[playerid][1] = CreatePlayerTextDraw(playerid, phx + 51, phy + 79, "C");
         PlayerTextDrawLetterSize(playerid, p_calculator[playerid][1], 0.409, 2.098);
         PlayerTextDrawTextSize(playerid, p_calculator[playerid][1], 20.000, 20.000);
         PlayerTextDrawAlignment(playerid, p_calculator[playerid][1], TEXT_DRAW_ALIGN_CENTER);
@@ -911,7 +927,7 @@ stock PhoneCalculator(playerid, bool:Hide)
         PlayerTextDrawSetProportional(playerid, p_calculator[playerid][1], true);
         PlayerTextDrawSetSelectable(playerid, p_calculator[playerid][1], true);
 
-        p_calculator[playerid][2] = CreatePlayerTextDraw(playerid, 571.000, 266.000, "Sq");
+        p_calculator[playerid][2] = CreatePlayerTextDraw(playerid, phx + 79, phy + 79, "Sq");
         PlayerTextDrawLetterSize(playerid, p_calculator[playerid][2], 0.409, 2.098);
         PlayerTextDrawTextSize(playerid, p_calculator[playerid][2], 20.000, 20.000);
         PlayerTextDrawAlignment(playerid, p_calculator[playerid][2], TEXT_DRAW_ALIGN_CENTER);
@@ -925,7 +941,7 @@ stock PhoneCalculator(playerid, bool:Hide)
         PlayerTextDrawSetProportional(playerid, p_calculator[playerid][2], true);
         PlayerTextDrawSetSelectable(playerid, p_calculator[playerid][2], true);
 
-        p_calculator[playerid][3] = CreatePlayerTextDraw(playerid, 599.000, 266.000, "+");
+        p_calculator[playerid][3] = CreatePlayerTextDraw(playerid, phx + 107, phy + 79, "+");
         PlayerTextDrawLetterSize(playerid, p_calculator[playerid][3], 0.409, 2.098);
         PlayerTextDrawTextSize(playerid, p_calculator[playerid][3], 20.000, 20.000);
         PlayerTextDrawAlignment(playerid, p_calculator[playerid][3], TEXT_DRAW_ALIGN_CENTER);
@@ -939,7 +955,7 @@ stock PhoneCalculator(playerid, bool:Hide)
         PlayerTextDrawSetProportional(playerid, p_calculator[playerid][3], true);
         PlayerTextDrawSetSelectable(playerid, p_calculator[playerid][3], true);
 
-        p_calculator[playerid][4] = CreatePlayerTextDraw(playerid, 599.000, 293.000, "-");
+        p_calculator[playerid][4] = CreatePlayerTextDraw(playerid, phx + 107, phy + 106, "-");
         PlayerTextDrawLetterSize(playerid, p_calculator[playerid][4], 0.409, 2.098);
         PlayerTextDrawTextSize(playerid, p_calculator[playerid][4], 20.000, 20.000);
         PlayerTextDrawAlignment(playerid, p_calculator[playerid][4], TEXT_DRAW_ALIGN_CENTER);
@@ -953,7 +969,7 @@ stock PhoneCalculator(playerid, bool:Hide)
         PlayerTextDrawSetProportional(playerid, p_calculator[playerid][4], true);
         PlayerTextDrawSetSelectable(playerid, p_calculator[playerid][4], true);
 
-        p_calculator[playerid][5] = CreatePlayerTextDraw(playerid, 599.000, 320.000, "x");
+        p_calculator[playerid][5] = CreatePlayerTextDraw(playerid, phx + 107, phy + 133, "x");
         PlayerTextDrawLetterSize(playerid, p_calculator[playerid][5], 0.409, 2.098);
         PlayerTextDrawTextSize(playerid, p_calculator[playerid][5], 20.000, 20.000);
         PlayerTextDrawAlignment(playerid, p_calculator[playerid][5], TEXT_DRAW_ALIGN_CENTER);
@@ -967,7 +983,7 @@ stock PhoneCalculator(playerid, bool:Hide)
         PlayerTextDrawSetProportional(playerid, p_calculator[playerid][5], true);
         PlayerTextDrawSetSelectable(playerid, p_calculator[playerid][5], true);
 
-        p_calculator[playerid][6] = CreatePlayerTextDraw(playerid, 599.000, 347.000, "/");
+        p_calculator[playerid][6] = CreatePlayerTextDraw(playerid, phx + 107, phy + 160, "/");
         PlayerTextDrawLetterSize(playerid, p_calculator[playerid][6], 0.409, 2.098);
         PlayerTextDrawTextSize(playerid, p_calculator[playerid][6], 20.000, 20.000);
         PlayerTextDrawAlignment(playerid, p_calculator[playerid][6], TEXT_DRAW_ALIGN_CENTER);
@@ -981,7 +997,7 @@ stock PhoneCalculator(playerid, bool:Hide)
         PlayerTextDrawSetProportional(playerid, p_calculator[playerid][6], true);
         PlayerTextDrawSetSelectable(playerid, p_calculator[playerid][6], true);
 
-        p_calculator[playerid][7] = CreatePlayerTextDraw(playerid, 599.000, 374.000, "=");
+        p_calculator[playerid][7] = CreatePlayerTextDraw(playerid, phx + 107, phy + 187, "=");
         PlayerTextDrawLetterSize(playerid, p_calculator[playerid][7], 0.409, 2.098);
         PlayerTextDrawTextSize(playerid, p_calculator[playerid][7], 20.000, 20.000);
         PlayerTextDrawAlignment(playerid, p_calculator[playerid][7], TEXT_DRAW_ALIGN_CENTER);
@@ -995,7 +1011,7 @@ stock PhoneCalculator(playerid, bool:Hide)
         PlayerTextDrawSetProportional(playerid, p_calculator[playerid][7], true);
         PlayerTextDrawSetSelectable(playerid, p_calculator[playerid][7], true);
 
-        p_calculator[playerid][8] = CreatePlayerTextDraw(playerid, 515.000, 293.000, "7");
+        p_calculator[playerid][8] = CreatePlayerTextDraw(playerid, phx + 23, phy + 106, "7");
         PlayerTextDrawLetterSize(playerid, p_calculator[playerid][8], 0.409, 2.098);
         PlayerTextDrawTextSize(playerid, p_calculator[playerid][8], 20.000, 20.000);
         PlayerTextDrawAlignment(playerid, p_calculator[playerid][8], TEXT_DRAW_ALIGN_CENTER);
@@ -1009,7 +1025,7 @@ stock PhoneCalculator(playerid, bool:Hide)
         PlayerTextDrawSetProportional(playerid, p_calculator[playerid][8], true);
         PlayerTextDrawSetSelectable(playerid, p_calculator[playerid][8], true);
 
-        p_calculator[playerid][9] = CreatePlayerTextDraw(playerid, 543.000, 293.000, "8");
+        p_calculator[playerid][9] = CreatePlayerTextDraw(playerid, phx + 51, phy + 106, "8");
         PlayerTextDrawLetterSize(playerid, p_calculator[playerid][9], 0.409, 2.098);
         PlayerTextDrawTextSize(playerid, p_calculator[playerid][9], 20.000, 20.000);
         PlayerTextDrawAlignment(playerid, p_calculator[playerid][9], TEXT_DRAW_ALIGN_CENTER);
@@ -1023,7 +1039,7 @@ stock PhoneCalculator(playerid, bool:Hide)
         PlayerTextDrawSetProportional(playerid, p_calculator[playerid][9], true);
         PlayerTextDrawSetSelectable(playerid, p_calculator[playerid][9], true);
 
-        p_calculator[playerid][10] = CreatePlayerTextDraw(playerid, 571.000, 293.000, "9");
+        p_calculator[playerid][10] = CreatePlayerTextDraw(playerid, phx + 79, phy + 106, "9");
         PlayerTextDrawLetterSize(playerid, p_calculator[playerid][10], 0.409, 2.098);
         PlayerTextDrawTextSize(playerid, p_calculator[playerid][10], 20.000, 20.000);
         PlayerTextDrawAlignment(playerid, p_calculator[playerid][10], TEXT_DRAW_ALIGN_CENTER);
@@ -1037,7 +1053,7 @@ stock PhoneCalculator(playerid, bool:Hide)
         PlayerTextDrawSetProportional(playerid, p_calculator[playerid][10], true);
         PlayerTextDrawSetSelectable(playerid, p_calculator[playerid][10], true);
 
-        p_calculator[playerid][11] = CreatePlayerTextDraw(playerid, 515.000, 320.000, "4");
+        p_calculator[playerid][11] = CreatePlayerTextDraw(playerid, phx + 23, phy + 133, "4");
         PlayerTextDrawLetterSize(playerid, p_calculator[playerid][11], 0.409, 2.098);
         PlayerTextDrawTextSize(playerid, p_calculator[playerid][11], 20.000, 20.000);
         PlayerTextDrawAlignment(playerid, p_calculator[playerid][11], TEXT_DRAW_ALIGN_CENTER);
@@ -1051,7 +1067,7 @@ stock PhoneCalculator(playerid, bool:Hide)
         PlayerTextDrawSetProportional(playerid, p_calculator[playerid][11], true);
         PlayerTextDrawSetSelectable(playerid, p_calculator[playerid][11], true);
 
-        p_calculator[playerid][12] = CreatePlayerTextDraw(playerid, 543.000, 320.000, "5");
+        p_calculator[playerid][12] = CreatePlayerTextDraw(playerid, phx + 51, phy + 133, "5");
         PlayerTextDrawLetterSize(playerid, p_calculator[playerid][12], 0.409, 2.098);
         PlayerTextDrawTextSize(playerid, p_calculator[playerid][12], 20.000, 20.000);
         PlayerTextDrawAlignment(playerid, p_calculator[playerid][12], TEXT_DRAW_ALIGN_CENTER);
@@ -1065,7 +1081,7 @@ stock PhoneCalculator(playerid, bool:Hide)
         PlayerTextDrawSetProportional(playerid, p_calculator[playerid][12], true);
         PlayerTextDrawSetSelectable(playerid, p_calculator[playerid][12], true);
 
-        p_calculator[playerid][13] = CreatePlayerTextDraw(playerid, 571.000, 320.000, "6");
+        p_calculator[playerid][13] = CreatePlayerTextDraw(playerid, phx + 79, phy + 133, "6");
         PlayerTextDrawLetterSize(playerid, p_calculator[playerid][13], 0.409, 2.098);
         PlayerTextDrawTextSize(playerid, p_calculator[playerid][13], 20.000, 20.000);
         PlayerTextDrawAlignment(playerid, p_calculator[playerid][13], TEXT_DRAW_ALIGN_CENTER);
@@ -1079,7 +1095,7 @@ stock PhoneCalculator(playerid, bool:Hide)
         PlayerTextDrawSetProportional(playerid, p_calculator[playerid][13], true);
         PlayerTextDrawSetSelectable(playerid, p_calculator[playerid][13], true);
 
-        p_calculator[playerid][14] = CreatePlayerTextDraw(playerid, 515.000, 347.000, "1");
+        p_calculator[playerid][14] = CreatePlayerTextDraw(playerid, phx + 23, phy + 160, "1");
         PlayerTextDrawLetterSize(playerid, p_calculator[playerid][14], 0.409, 2.098);
         PlayerTextDrawTextSize(playerid, p_calculator[playerid][14], 20.000, 20.000);
         PlayerTextDrawAlignment(playerid, p_calculator[playerid][14], TEXT_DRAW_ALIGN_CENTER);
@@ -1093,7 +1109,7 @@ stock PhoneCalculator(playerid, bool:Hide)
         PlayerTextDrawSetProportional(playerid, p_calculator[playerid][14], true);
         PlayerTextDrawSetSelectable(playerid, p_calculator[playerid][14], true);
 
-        p_calculator[playerid][15] = CreatePlayerTextDraw(playerid, 543.000, 347.000, "2");
+        p_calculator[playerid][15] = CreatePlayerTextDraw(playerid, phx + 51, phy + 160, "2");
         PlayerTextDrawLetterSize(playerid, p_calculator[playerid][15], 0.409, 2.098);
         PlayerTextDrawTextSize(playerid, p_calculator[playerid][15], 20.000, 20.000);
         PlayerTextDrawAlignment(playerid, p_calculator[playerid][15], TEXT_DRAW_ALIGN_CENTER);
@@ -1107,7 +1123,7 @@ stock PhoneCalculator(playerid, bool:Hide)
         PlayerTextDrawSetProportional(playerid, p_calculator[playerid][15], true);
         PlayerTextDrawSetSelectable(playerid, p_calculator[playerid][15], true);
 
-        p_calculator[playerid][16] = CreatePlayerTextDraw(playerid, 571.000, 347.000, "3");
+        p_calculator[playerid][16] = CreatePlayerTextDraw(playerid, phx + 79, phy + 160, "3");
         PlayerTextDrawLetterSize(playerid, p_calculator[playerid][16], 0.409, 2.098);
         PlayerTextDrawTextSize(playerid, p_calculator[playerid][16], 20.000, 20.000);
         PlayerTextDrawAlignment(playerid, p_calculator[playerid][16], TEXT_DRAW_ALIGN_CENTER);
@@ -1121,7 +1137,7 @@ stock PhoneCalculator(playerid, bool:Hide)
         PlayerTextDrawSetProportional(playerid, p_calculator[playerid][16], true);
         PlayerTextDrawSetSelectable(playerid, p_calculator[playerid][16], true);
 
-        p_calculator[playerid][17] = CreatePlayerTextDraw(playerid, 529.000, 374.000, "0");
+        p_calculator[playerid][17] = CreatePlayerTextDraw(playerid, phx + 37, phy + 187, "0");
         PlayerTextDrawLetterSize(playerid, p_calculator[playerid][17], 0.409, 2.098);
         PlayerTextDrawTextSize(playerid, p_calculator[playerid][17], 20.000, 48.000);
         PlayerTextDrawAlignment(playerid, p_calculator[playerid][17], TEXT_DRAW_ALIGN_CENTER);
@@ -1135,7 +1151,7 @@ stock PhoneCalculator(playerid, bool:Hide)
         PlayerTextDrawSetProportional(playerid, p_calculator[playerid][17], true);
         PlayerTextDrawSetSelectable(playerid, p_calculator[playerid][17], true);
 
-        p_calculator[playerid][18] = CreatePlayerTextDraw(playerid, 571.000, 374.000, ".");
+        p_calculator[playerid][18] = CreatePlayerTextDraw(playerid, phx + 79, phy + 187, ".");
         PlayerTextDrawLetterSize(playerid, p_calculator[playerid][18], 0.409, 2.098);
         PlayerTextDrawTextSize(playerid, p_calculator[playerid][18], 20.000, 20.000);
         PlayerTextDrawAlignment(playerid, p_calculator[playerid][18], TEXT_DRAW_ALIGN_CENTER);
@@ -1149,7 +1165,7 @@ stock PhoneCalculator(playerid, bool:Hide)
         PlayerTextDrawSetProportional(playerid, p_calculator[playerid][18], true);
         PlayerTextDrawSetSelectable(playerid, p_calculator[playerid][18], true);
 
-        p_calculator[playerid][19] = CreatePlayerTextDraw(playerid, 612.000, 220.000, "");
+        p_calculator[playerid][19] = CreatePlayerTextDraw(playerid, phx + 120, phy + 33, "");
         PlayerTextDrawLetterSize(playerid, p_calculator[playerid][19], 0.208, 0.999);
         PlayerTextDrawAlignment(playerid, p_calculator[playerid][19], TEXT_DRAW_ALIGN_RIGHT);
         PlayerTextDrawColour(playerid, p_calculator[playerid][19], 1887473919);
@@ -1159,7 +1175,7 @@ stock PhoneCalculator(playerid, bool:Hide)
         PlayerTextDrawFont(playerid, p_calculator[playerid][19], TEXT_DRAW_FONT_1);
         PlayerTextDrawSetProportional(playerid, p_calculator[playerid][19], true);
 
-        p_calculator[playerid][20] = CreatePlayerTextDraw(playerid, 612.000, 230.000, "");
+        p_calculator[playerid][20] = CreatePlayerTextDraw(playerid, phx + 120, phy + 43, "");
         PlayerTextDrawLetterSize(playerid, p_calculator[playerid][20], 0.507, 2.598);
         PlayerTextDrawAlignment(playerid, p_calculator[playerid][20], TEXT_DRAW_ALIGN_RIGHT);
         PlayerTextDrawColour(playerid, p_calculator[playerid][20], -1);
@@ -1191,16 +1207,6 @@ stock PhoneCalculator(playerid, bool:Hide)
 hook OnGameModeInit()
 {
 
-    p_nav_time = TextDrawCreate(516.000, 193.000, "00:00");
-    TextDrawLetterSize(p_nav_time, 0.148, 0.998);
-    TextDrawTextSize(p_nav_time, 0.000, 20.000);
-    TextDrawAlignment(p_nav_time, TEXT_DRAW_ALIGN_CENTER);
-    TextDrawColour(p_nav_time, -1);
-    TextDrawSetShadow(p_nav_time, 1);
-    TextDrawSetOutline(p_nav_time, 1);
-    TextDrawBackgroundColour(p_nav_time, 150);
-    TextDrawFont(p_nav_time, TEXT_DRAW_FONT_2);
-    TextDrawSetProportional(p_nav_time, 1);
 
     return 1;
 }
@@ -1208,7 +1214,7 @@ stock backbtn(playerid, bool:Hide)
 {
     if (!Hide)
     {
-        p_icon[playerid][9] = CreatePlayerTextDraw(playerid, 535.000, 413.000, "mdl-1005:container");
+        p_icon[playerid][9] = CreatePlayerTextDraw(playerid, phx + 43, phy + 226, "mdl-1005:container");
         PlayerTextDrawTextSize(playerid, p_icon[playerid][9], 46.000, 6.000);
         PlayerTextDrawAlignment(playerid, p_icon[playerid][9], TEXT_DRAW_ALIGN_LEFT);
         PlayerTextDrawColour(playerid, p_icon[playerid][9], 240);
@@ -1299,7 +1305,7 @@ stock PhoneDialPadScreen(playerid, bool:Hide)
         backbtn(playerid, false);
 
 
-        pDialPad_deletebtn[playerid] = CreatePlayerTextDraw(playerid, 582.000, 366.000, "mdl-1006:delete-text");
+        pDialPad_deletebtn[playerid] = CreatePlayerTextDraw(playerid, phx + 90, phy + 179, "mdl-1006:delete-text");
         PlayerTextDrawTextSize(playerid, pDialPad_deletebtn[playerid], 20.000, 25.000);
         PlayerTextDrawAlignment(playerid, pDialPad_deletebtn[playerid], TEXT_DRAW_ALIGN_LEFT);
         PlayerTextDrawColour(playerid, pDialPad_deletebtn[playerid], 2005433163);
@@ -1310,7 +1316,7 @@ stock PhoneDialPadScreen(playerid, bool:Hide)
         PlayerTextDrawSetProportional(playerid, pDialPad_deletebtn[playerid], true);
         PlayerTextDrawSetSelectable(playerid, pDialPad_deletebtn[playerid], true);
 
-        pDialPad_addcon[playerid] = CreatePlayerTextDraw(playerid, 558.000, 240.000, "Add Contact");
+        pDialPad_addcon[playerid] = CreatePlayerTextDraw(playerid, phx + 66, phy + 53, "Add Contact");
         PlayerTextDrawLetterSize(playerid, pDialPad_addcon[playerid], 0.208, 1.098);
         PlayerTextDrawTextSize(playerid, pDialPad_addcon[playerid], 15.000, 45.000);
         PlayerTextDrawAlignment(playerid, pDialPad_addcon[playerid], TEXT_DRAW_ALIGN_CENTER);
@@ -1322,7 +1328,7 @@ stock PhoneDialPadScreen(playerid, bool:Hide)
         PlayerTextDrawSetProportional(playerid, pDialPad_addcon[playerid], true);
         PlayerTextDrawSetSelectable(playerid, pDialPad_addcon[playerid], true);
 
-        pDialPad_numtext[playerid] = CreatePlayerTextDraw(playerid, 519.000, 263.000, "1    2    3~n~~n~4    5    6~n~~n~7    8    9~n~~n~     0");
+        pDialPad_numtext[playerid] = CreatePlayerTextDraw(playerid, phx + 27, phy + 76, "1    2    3~n~~n~4    5    6~n~~n~7    8    9~n~~n~     0");
         PlayerTextDrawLetterSize(playerid, pDialPad_numtext[playerid], 0.358, 2.000);
         PlayerTextDrawAlignment(playerid, pDialPad_numtext[playerid], TEXT_DRAW_ALIGN_LEFT);
         PlayerTextDrawColour(playerid, pDialPad_numtext[playerid], 255);
@@ -1332,7 +1338,7 @@ stock PhoneDialPadScreen(playerid, bool:Hide)
         PlayerTextDrawFont(playerid, pDialPad_numtext[playerid], TEXT_DRAW_FONT_1);
         PlayerTextDrawSetProportional(playerid, pDialPad_numtext[playerid], false);
 
-        pDialPad_call[playerid] = CreatePlayerTextDraw(playerid, 511.000, 367.000, "mdl-1006:call-accept");
+        pDialPad_call[playerid] = CreatePlayerTextDraw(playerid, phx + 19, phy + 180, "mdl-1006:call-accept");
         PlayerTextDrawTextSize(playerid, pDialPad_call[playerid], 25.000, 25.000);
         PlayerTextDrawAlignment(playerid, pDialPad_call[playerid], TEXT_DRAW_ALIGN_LEFT);
         PlayerTextDrawColour(playerid, pDialPad_call[playerid], -1);
@@ -1343,7 +1349,7 @@ stock PhoneDialPadScreen(playerid, bool:Hide)
         PlayerTextDrawSetProportional(playerid, pDialPad_call[playerid], true);
         PlayerTextDrawSetSelectable(playerid, pDialPad_call[playerid], true);
 
-        pDialPad_shownumtext[playerid] = CreatePlayerTextDraw(playerid, 558.000, 219.000, "_");
+        pDialPad_shownumtext[playerid] = CreatePlayerTextDraw(playerid, phx + 66, phy + 32, "_");
         PlayerTextDrawLetterSize(playerid, pDialPad_shownumtext[playerid], 0.358, 2.000);
         PlayerTextDrawAlignment(playerid, pDialPad_shownumtext[playerid], TEXT_DRAW_ALIGN_CENTER);
         PlayerTextDrawColour(playerid, pDialPad_shownumtext[playerid], 255);
@@ -1353,14 +1359,14 @@ stock PhoneDialPadScreen(playerid, bool:Hide)
         PlayerTextDrawFont(playerid, pDialPad_shownumtext[playerid], TEXT_DRAW_FONT_1);
         PlayerTextDrawSetProportional(playerid, pDialPad_shownumtext[playerid], true);
 
-        new Float:px = 473,
-            Float:py = 259;
+        new Float:px = phx - 19,
+            Float:py = phy + 72;
 
         for (new i = 0, idx = 0; i < 10; i++)
         {
             if (idx > 0 && (idx % 3) == 0)
             {
-                px = 508;
+                px = phx + 16;
                 py += 35.0;
             }
             else
@@ -1368,7 +1374,7 @@ stock PhoneDialPadScreen(playerid, bool:Hide)
                 px += 35.0;
             }
             idx++;
-            if (i == 9) px = 544;
+            if (i == 9) px = phx + 52;
 
             pDialPad[playerid][i] = CreatePlayerTextDraw(playerid, px, py, "LD_POOL:ball");
             PlayerTextDrawTextSize(playerid, pDialPad[playerid][i], 30.000, 30.000);
@@ -1425,7 +1431,7 @@ stock changeWallpaper(playerid, bool:Hide)
         PhoneHomeScreen(playerid, true);
 
 
-        pWallpaper_bgscreen[playerid] = CreatePlayerTextDraw(playerid, 499.000, 191.000, "mdl-1005:background");
+        pWallpaper_bgscreen[playerid] = CreatePlayerTextDraw(playerid, phx + 7, phy + 4, "mdl-1005:background");
         PlayerTextDrawTextSize(playerid, pWallpaper_bgscreen[playerid], 118.000, 232.000);
         PlayerTextDrawAlignment(playerid, pWallpaper_bgscreen[playerid], TEXT_DRAW_ALIGN_LEFT);
         PlayerTextDrawColour(playerid, pWallpaper_bgscreen[playerid], -1);
@@ -1435,7 +1441,7 @@ stock changeWallpaper(playerid, bool:Hide)
         PlayerTextDrawFont(playerid, pWallpaper_bgscreen[playerid], TEXT_DRAW_FONT_SPRITE_DRAW);
         PlayerTextDrawSetProportional(playerid, pWallpaper_bgscreen[playerid], true);
 
-        p_body[playerid] = CreatePlayerTextDraw(playerid, 492.000, 187.000, "mdl-1005:body");
+        p_body[playerid] = CreatePlayerTextDraw(playerid, phx, phy, "mdl-1005:body");
         PlayerTextDrawTextSize(playerid, p_body[playerid], 130.000, 240.000);
         PlayerTextDrawAlignment(playerid, p_body[playerid], TEXT_DRAW_ALIGN_LEFT);
         PlayerTextDrawColour(playerid, p_body[playerid], -1);
@@ -1447,7 +1453,7 @@ stock changeWallpaper(playerid, bool:Hide)
 
         PhoneNavbar(playerid, false);
 
-        pWallpaper_page[playerid] = CreatePlayerTextDraw(playerid, 560.000, 386.000, "0/0");
+        pWallpaper_page[playerid] = CreatePlayerTextDraw(playerid, phx + 68, phy + 199, "0/0");
         PlayerTextDrawLetterSize(playerid, pWallpaper_page[playerid], 0.209, 1.297);
         PlayerTextDrawAlignment(playerid, pWallpaper_page[playerid], TEXT_DRAW_ALIGN_CENTER);
         PlayerTextDrawColour(playerid, pWallpaper_page[playerid], -1);
@@ -1457,7 +1463,7 @@ stock changeWallpaper(playerid, bool:Hide)
         PlayerTextDrawFont(playerid, pWallpaper_page[playerid], TEXT_DRAW_FONT_2);
         PlayerTextDrawSetProportional(playerid, pWallpaper_page[playerid], true);
 
-        pWallpaper_container[playerid] = CreatePlayerTextDraw(playerid, 499.000, 376.000, "mdl-1005:container");
+        pWallpaper_container[playerid] = CreatePlayerTextDraw(playerid, phx + 7, phy + 189, "mdl-1005:container");
         PlayerTextDrawTextSize(playerid, pWallpaper_container[playerid], 121.000, 45.000);
         PlayerTextDrawAlignment(playerid, pWallpaper_container[playerid], TEXT_DRAW_ALIGN_LEFT);
         PlayerTextDrawColour(playerid, pWallpaper_container[playerid], 1887473919);
@@ -1467,7 +1473,7 @@ stock changeWallpaper(playerid, bool:Hide)
         PlayerTextDrawFont(playerid, pWallpaper_container[playerid], TEXT_DRAW_FONT_SPRITE_DRAW);
         PlayerTextDrawSetProportional(playerid, pWallpaper_container[playerid], true);
 
-        pWallpaper_apply[playerid] = CreatePlayerTextDraw(playerid, 597.000, 202.000, "apply");
+        pWallpaper_apply[playerid] = CreatePlayerTextDraw(playerid, phx + 105, phy + 15, "apply");
         PlayerTextDrawLetterSize(playerid, pWallpaper_apply[playerid], 0.194, 1.098);
         PlayerTextDrawTextSize(playerid, pWallpaper_apply[playerid], 10.000, 55.000);
         PlayerTextDrawAlignment(playerid, pWallpaper_apply[playerid], TEXT_DRAW_ALIGN_CENTER);
@@ -1479,7 +1485,7 @@ stock changeWallpaper(playerid, bool:Hide)
         PlayerTextDrawSetProportional(playerid, pWallpaper_apply[playerid], true);
         PlayerTextDrawSetSelectable(playerid, pWallpaper_apply[playerid], true);
 
-        pWallpaper_prev[playerid] = CreatePlayerTextDraw(playerid, 516.000, 384.000, "mdl-1006:left");
+        pWallpaper_prev[playerid] = CreatePlayerTextDraw(playerid, phx + 24, phy + 197, "mdl-1006:left");
         PlayerTextDrawTextSize(playerid, pWallpaper_prev[playerid], 20.000, 20.000);
         PlayerTextDrawAlignment(playerid, pWallpaper_prev[playerid], TEXT_DRAW_ALIGN_LEFT);
         PlayerTextDrawColour(playerid, pWallpaper_prev[playerid], -1);
@@ -1490,7 +1496,7 @@ stock changeWallpaper(playerid, bool:Hide)
         PlayerTextDrawSetProportional(playerid, pWallpaper_prev[playerid], true);
         PlayerTextDrawSetSelectable(playerid, pWallpaper_prev[playerid], true);
 
-        pWallpaper_next[playerid] = CreatePlayerTextDraw(playerid, 581.000, 384.000, "mdl-1006:right");
+        pWallpaper_next[playerid] = CreatePlayerTextDraw(playerid, phx + 89, phy + 197, "mdl-1006:right");
         PlayerTextDrawTextSize(playerid, pWallpaper_next[playerid], 20.000, 20.000);
         PlayerTextDrawAlignment(playerid, pWallpaper_next[playerid], TEXT_DRAW_ALIGN_LEFT);
         PlayerTextDrawColour(playerid, pWallpaper_next[playerid], -1);
@@ -1509,7 +1515,7 @@ stock changeWallpaper(playerid, bool:Hide)
         PlayerTextDrawShow(playerid, pWallpaper_prev[playerid]);
         PlayerTextDrawShow(playerid, pWallpaper_next[playerid]);
         backbtn(playerid, false);
-        PlayerTextDrawSetString(playerid, pWallpaper_page[playerid],"%d/%d",Page[playerid] +1,TOTAL_WALLPAPERS +1);
+        PlayerTextDrawSetString(playerid, pWallpaper_page[playerid], "%d/%d", Page[playerid] + 1, TOTAL_WALLPAPERS + 1);
 
     }
     else
@@ -1535,7 +1541,7 @@ stock settingScreen(playerid, bool:Hide)
         PhoneNavbar(playerid, false);
         backbtn(playerid, false);
 
-        pSetting_settingText[playerid] = CreatePlayerTextDraw(playerid, 505.000, 205.000, "Settings");
+        pSetting_settingText[playerid] = CreatePlayerTextDraw(playerid, phx + 13, phy + 18, "Settings");
         PlayerTextDrawLetterSize(playerid, pSetting_settingText[playerid], 0.289, 1.598);
         PlayerTextDrawTextSize(playerid, pSetting_settingText[playerid], 608.000, 0.000);
         PlayerTextDrawAlignment(playerid, pSetting_settingText[playerid], TEXT_DRAW_ALIGN_LEFT);
@@ -1546,7 +1552,7 @@ stock settingScreen(playerid, bool:Hide)
         PlayerTextDrawFont(playerid, pSetting_settingText[playerid], TEXT_DRAW_FONT_1);
         PlayerTextDrawSetProportional(playerid, pSetting_settingText[playerid], true);
 
-        pSetting_AmContainer[playerid] = CreatePlayerTextDraw(playerid, 502.000, 224.000, "mdl-1005:container");
+        pSetting_AmContainer[playerid] = CreatePlayerTextDraw(playerid, phx + 10, phy + 37, "mdl-1005:container");
         PlayerTextDrawTextSize(playerid, pSetting_AmContainer[playerid], 115.000, 27.000);
         PlayerTextDrawAlignment(playerid, pSetting_AmContainer[playerid], TEXT_DRAW_ALIGN_LEFT);
         PlayerTextDrawColour(playerid, pSetting_AmContainer[playerid], 1887473919);
@@ -1557,7 +1563,7 @@ stock settingScreen(playerid, bool:Hide)
         PlayerTextDrawSetProportional(playerid, pSetting_AmContainer[playerid], true);
         PlayerTextDrawSetSelectable(playerid, pSetting_AmContainer[playerid], true);
 
-        pSetting_Amtext[playerid] = CreatePlayerTextDraw(playerid, 506.000, 233.000, "Airplane Mode");
+        pSetting_Amtext[playerid] = CreatePlayerTextDraw(playerid, phx + 14, phy + 46, "Airplane Mode");
         PlayerTextDrawLetterSize(playerid, pSetting_Amtext[playerid], 0.250, 1.000);
         PlayerTextDrawTextSize(playerid, pSetting_Amtext[playerid], 608.000, 0.000);
         PlayerTextDrawAlignment(playerid, pSetting_Amtext[playerid], TEXT_DRAW_ALIGN_LEFT);
@@ -1568,7 +1574,7 @@ stock settingScreen(playerid, bool:Hide)
         PlayerTextDrawFont(playerid, pSetting_Amtext[playerid], 1);
         PlayerTextDrawSetProportional(playerid, pSetting_Amtext[playerid], true);
 
-        pSetting_Amswitch[playerid] = CreatePlayerTextDraw(playerid, 585.000, 228.000, "mdl-1006:switch-off");
+        pSetting_Amswitch[playerid] = CreatePlayerTextDraw(playerid, phx + 93, phy + 41, "mdl-1006:switch-off");
         PlayerTextDrawTextSize(playerid, pSetting_Amswitch[playerid], 20.000, 20.000);
         PlayerTextDrawAlignment(playerid, pSetting_Amswitch[playerid], TEXT_DRAW_ALIGN_LEFT);
         PlayerTextDrawColour(playerid, pSetting_Amswitch[playerid], -1);
@@ -1578,7 +1584,7 @@ stock settingScreen(playerid, bool:Hide)
         PlayerTextDrawFont(playerid, pSetting_Amswitch[playerid], TEXT_DRAW_FONT_SPRITE_DRAW);
         PlayerTextDrawSetProportional(playerid, pSetting_Amswitch[playerid], true);
 
-        pSetting_changWall_container[playerid] = CreatePlayerTextDraw(playerid, 502.000, 254.000, "mdl-1005:container");
+        pSetting_changWall_container[playerid] = CreatePlayerTextDraw(playerid, phx + 10, phy + 67, "mdl-1005:container");
         PlayerTextDrawTextSize(playerid, pSetting_changWall_container[playerid], 115.000, 27.000);
         PlayerTextDrawAlignment(playerid, pSetting_changWall_container[playerid], TEXT_DRAW_ALIGN_LEFT);
         PlayerTextDrawColour(playerid, pSetting_changWall_container[playerid], 1887473919);
@@ -1589,7 +1595,7 @@ stock settingScreen(playerid, bool:Hide)
         PlayerTextDrawSetProportional(playerid, pSetting_changWall_container[playerid], true);
         PlayerTextDrawSetSelectable(playerid, pSetting_changWall_container[playerid], true);
 
-        pSetting_changeWallText[playerid] = CreatePlayerTextDraw(playerid, 506.000, 263.000, "Change Wallpaper");
+        pSetting_changeWallText[playerid] = CreatePlayerTextDraw(playerid, phx + 14, phy + 76, "Change Wallpaper");
         PlayerTextDrawLetterSize(playerid, pSetting_changeWallText[playerid], 0.250, 1.000);
         PlayerTextDrawTextSize(playerid, pSetting_changeWallText[playerid], 608.000, 0.000);
         PlayerTextDrawAlignment(playerid, pSetting_changeWallText[playerid], TEXT_DRAW_ALIGN_LEFT);
@@ -1600,7 +1606,7 @@ stock settingScreen(playerid, bool:Hide)
         PlayerTextDrawFont(playerid, pSetting_changeWallText[playerid], TEXT_DRAW_FONT_1);
         PlayerTextDrawSetProportional(playerid, pSetting_changeWallText[playerid], 1);
 
-        pSetting_AboutContainer[playerid] = CreatePlayerTextDraw(playerid, 502.000, 284.000, "mdl-1005:container");
+        pSetting_AboutContainer[playerid] = CreatePlayerTextDraw(playerid, phx + 10, phy + 97, "mdl-1005:container");
         PlayerTextDrawTextSize(playerid, pSetting_AboutContainer[playerid], 115.000, 27.000);
         PlayerTextDrawAlignment(playerid, pSetting_AboutContainer[playerid], TEXT_DRAW_ALIGN_LEFT);
         PlayerTextDrawColour(playerid, pSetting_AboutContainer[playerid], 1887473919);
@@ -1611,7 +1617,7 @@ stock settingScreen(playerid, bool:Hide)
         PlayerTextDrawSetProportional(playerid, pSetting_AboutContainer[playerid], true);
         PlayerTextDrawSetSelectable(playerid, pSetting_AboutContainer[playerid], true);
 
-        pSetting_AboutText[playerid] = CreatePlayerTextDraw(playerid, 506.000, 293.000, "About Phone");
+        pSetting_AboutText[playerid] = CreatePlayerTextDraw(playerid, phx + 14, phy + 106, "About Phone");
         PlayerTextDrawLetterSize(playerid, pSetting_AboutText[playerid], 0.250, 1.000);
         PlayerTextDrawTextSize(playerid, pSetting_AboutText[playerid], 608.000, 0.000);
         PlayerTextDrawAlignment(playerid, pSetting_AboutText[playerid], TEXT_DRAW_ALIGN_LEFT);
@@ -2095,8 +2101,8 @@ hook OnPlayerClickPlayerTextDraw(playerid, PlayerText:playertextid)
             mysql_tquery(SQLConnectionId, "SELECT bg FROM phone", "getWallpaper", "i", playerid);
             SendClientMessage(playerid,  0x9ACD32FF, "Wallpaper Changed");
         }
-         PlayerTextDrawSetString(playerid, pWallpaper_page[playerid],"%d/%d",Page[playerid] +1,TOTAL_WALLPAPERS +1);
-        
+        PlayerTextDrawSetString(playerid, pWallpaper_page[playerid], "%d/%d", Page[playerid] + 1, TOTAL_WALLPAPERS + 1);
+
     }
     return 1;
 }
@@ -2204,11 +2210,26 @@ stock phonecall(playerid)
         CancelSelectTextDraw(playerid);
         phoneStatus[playerid][PHONE_SHOWN] = false;
     }
+    SendClientMessage(playerid, -1, "phx = %f phy =%f", phx, phy);
 }
 
 YCMD:phone(playerid, params[], help)
 {
     phonecall(playerid);
+
+    return 1;
+}
+
+YCMD:ch(playerid, params[], help)
+{
+    new Float:ppx, Float:ppy;
+    if (sscanf(params, "ff", ppx, ppy))
+    {
+        return SendClientMessage(playerid, -1, "use /ch px val py val");
+    }
+    phx = ppx;
+    phy = ppy;
+    SendClientMessage(playerid, -1, "value seted");
 
     return 1;
 }

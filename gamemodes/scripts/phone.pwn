@@ -111,10 +111,24 @@ new hiden[MAX_PLAYERS];
 
 static enum phoneenum
 {
+    phOwnerID,
+    phOwner[MAX_PLAYER_NAME],
     Float:phx,
     Float:phy,
     apmode,
-    currentWallpaper[25]
+    currentWallpaper[25],
+    pModel,
+    pBone,
+    pAttached,
+    Float:pPosX,
+    Float:pPosY,
+    Float:pPosZ,
+    Float:pRotX,
+    Float:pRotY,
+    Float:pRotZ,
+    Float:pScaleX,
+    Float:pScaleY,
+    Float:pScaleZ,
 };
 new phoneinfo[MAX_PLAYERS][phoneenum];
 new wallpaperscreen[][25] =
@@ -191,6 +205,19 @@ public ReloadPhone(playerid)
     phoneinfo[playerid][phx] = cache_get_field_content_float(0, "phx", SQLConnectionId);
     phoneinfo[playerid][phy] = cache_get_field_content_float(0, "phy", SQLConnectionId);
     cache_get_field_content(0, "bg", phoneinfo[playerid][currentWallpaper], SQLConnectionId, 25);
+
+    phoneinfo[playerid][pModel] = cache_get_field_content_int(0, "modelid", SQLConnectionId);
+    phoneinfo[playerid][pBone] = cache_get_field_content_int(0, "boneid", SQLConnectionId);
+    phoneinfo[playerid][pPosX] = cache_get_field_content_float(0, "pos_x", SQLConnectionId);
+    phoneinfo[playerid][pPosY] = cache_get_field_content_float(0, "pos_y", SQLConnectionId);
+    phoneinfo[playerid][pPosZ] = cache_get_field_content_float(0, "pos_z", SQLConnectionId);
+    phoneinfo[playerid][pRotX] = cache_get_field_content_float(0, "rot_x", SQLConnectionId);
+    phoneinfo[playerid][pRotY] = cache_get_field_content_float(0, "rot_y", SQLConnectionId);
+    phoneinfo[playerid][pRotZ] = cache_get_field_content_float(0, "rot_z", SQLConnectionId);
+    phoneinfo[playerid][pScaleX] = cache_get_field_content_float(0, "scale_x", SQLConnectionId);
+    phoneinfo[playerid][pScaleY] = cache_get_field_content_float(0, "scale_y", SQLConnectionId);
+    phoneinfo[playerid][pScaleZ] = cache_get_field_content_float(0, "scale_z", SQLConnectionId);
+
     return 1;
 }
 
@@ -1243,6 +1270,8 @@ hook OnPlayerConnect(playerid)
 {
     mysql_tquery(SQLConnectionId, "SELECT * FROM phone", "ReloadPhone", "i", playerid);
     phoneStatus[playerid][PHONE_CAMERA__SHWON] = false;
+    phoneinfo[playerid][pAttached] == 0;
+
     return 1;
 }
 hook OnPlayerDisconnect(playerid, reason)
@@ -1256,6 +1285,7 @@ stock OnbackbtnClick(playerid)
 {
     if (phoneStatus[playerid][PHONE_HOME_SHOWN])
     {
+        phonebodytog(playerid);
         PhoneHomeScreen(playerid, true);
         CancelSelectTextDraw(playerid);
         phoneStatus[playerid][PHONE_SHOWN] = false;
@@ -1289,6 +1319,7 @@ stock OnbackbtnClick(playerid)
     {
         changeWallpaper(playerid, true);
     }
+
     Load_Phone(playerid);
 
 }
@@ -1301,7 +1332,10 @@ enum
     DIALOG_AddMusic1,
     DIALOG_AddMusic2,
     DIALOG_MusicOpe,
-    DIALOG_CHANGPOSCONF
+    DIALOG_CHANGPOSCONF,
+    DIALOG_PHONEBODYEDIT,
+    DIALOG_PHONEBODYBONE,
+    DIALOG_PHONEBODYRESET
 };
 stock PhoneDialPadScreen(playerid, bool:Hide)
 {
@@ -1702,7 +1736,7 @@ public OnAirPlaneModeClick(playerid)
     {
         phoneinfo[playerid][apmode] = 0;
         PlayerTextDrawSetString(playerid, p_nav_network[playerid], "mdl-1006:connectivity-bar");
-        SendClientMessage(playerid, COLOR_AQUA, "Phone enabled. You can now receive calls and texts again.");
+        SendClientMessage(playerid, COLOR_AQUA, "Airplane Mode Disable: You can now receive calls and texts again.");
         PlayerTextDrawSetString(playerid, pSetting_Amswitch[playerid], "mdl-1006:switch-off");
         mysql_tquery(SQLConnectionId, "UPDATE phone SET apmode = 0");
     }
@@ -1710,7 +1744,7 @@ public OnAirPlaneModeClick(playerid)
     {
         phoneinfo[playerid][apmode] = 1;
         PlayerTextDrawSetString(playerid, p_nav_network[playerid], "mdl-1006:airplane");
-        SendClientMessage(playerid, COLOR_AQUA, "Phone toggled. You will no longer receive calls or texts.");
+        SendClientMessage(playerid, COLOR_AQUA, "Airplane Mode Enable: You will no longer receive calls or texts.");
         PlayerTextDrawSetString(playerid, pSetting_Amswitch[playerid], "mdl-1006:switch-on");
         mysql_tquery(SQLConnectionId, "UPDATE phone SET apmode = 1");
     }
@@ -1834,10 +1868,58 @@ hook OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
             }
             ChangePhonePos(playerid, true);
         }
+        case DIALOG_PHONEBODYEDIT:
+        {
+            if (response)
+            {
+                if (listitem == 0)
+                {
+                    phonebodytog(playerid);
+                    EditAttachedObject(playerid, 9);
+                }
+                if (listitem == 1)
+                {
+                    ShowPlayerDialog(playerid, DIALOG_PHONEBODYBONE, DIALOG_STYLE_LIST, "Edition menu", "Right hand\nLeft hand", "Select", "Cancel");
+
+                }
+                if (listitem == 2)
+                {
+                    ShowPlayerDialog(playerid, DIALOG_PHONEBODYRESET, DIALOG_STYLE_MSGBOX, "Reset Settings", "Reset Settings", "Confirm", "back");
+                }
+            }
+        }
+        case DIALOG_PHONEBODYBONE:
+        {
+            if (response)
+            {
+                if (listitem == 0)
+                    mysql_tquery(SQLConnectionId, "UPDATE phone SET boneid = 6");
+
+                else if (listitem == 1)
+                    mysql_tquery(SQLConnectionId, "UPDATE phone SET boneid = 5");
+
+                SendClientMessage(playerid, COLOR_GREY, "Changes saved.");
+                mysql_tquery(SQLConnectionId, "SELECT * FROM phone", "ReloadPhone", "i", playerid);
+            }
+        }
+        case DIALOG_PHONEBODYRESET:
+        {
+            if (response)
+            {
+                mysql_format(SQLConnectionId, queryBuffer, sizeof(queryBuffer), "UPDATE phone SET boneid = 6, pos_x = 0, pos_y = 0, pos_z = 0, rot_x = 0, rot_y = 0, rot_z = 0, scale_x = 1, scale_y = 1, scale_z = 1 ");
+                mysql_tquery(SQLConnectionId, queryBuffer);
+                mysql_tquery(SQLConnectionId, "SELECT * FROM phone", "ReloadPhone", "i", playerid);
+            }
+            else
+            {
+                ShowPlayerDialog(playerid, DIALOG_PHONEBODYEDIT, DIALOG_STYLE_LIST, "Edition menu", "Edit offset\nChange bone\nReset settings", "Select", "Cancel");
+
+            }
+        }
     }
     return 1;
-}
 
+}
 hook OnPlayerClickPlayerTextDraw(playerid, PlayerText:playertextid)
 {
     if (playertextid == p_icon[playerid][9])
@@ -1941,6 +2023,8 @@ hook OnPlayerClickPlayerTextDraw(playerid, PlayerText:playertextid)
             SetPlayerFacingAngle(playerid, Degree[playerid] - 90.0);
             phoneStatus[playerid][PHONE_CAMERA__SHWON] = true;
             ApplyAnimation(playerid, "PED", "gang_gunstand", 4.1, 1, 1, 1, 1, 1, 1);
+            SetPlayerAttachedObject(playerid, 9, phoneinfo[playerid][pModel], phoneinfo[playerid][pBone], phoneinfo[playerid][pPosX] + 0.132, phoneinfo[playerid][pPosY] -0.053, phoneinfo[playerid][pPosZ]+0.005, phoneinfo[playerid][pRotX], phoneinfo[playerid][pRotY], phoneinfo[playerid][pRotZ] + 105.9, phoneinfo[playerid][pScaleX]+0.458, phoneinfo[playerid][pScaleY] +0.076, phoneinfo[playerid][pScaleZ] +0.286);
+            phoneinfo[playerid][pAttached] = 1;
             SendClientMessage(playerid, -1, "Press F8 to take a selfie, Num 6/Num 4 to move the camera");
             SendClientMessage(playerid, -1, "Press 'N' stop taking selfies, /headmove to disable the head movement.");
         }
@@ -2196,6 +2280,8 @@ hook OnPlayerKeyStateChange(playerid, KEY:newkeys, KEY:oldkeys)
             SetCameraBehindPlayer(playerid);
             phoneStatus[playerid][PHONE_CAMERA__SHWON] = false;
             ApplyAnimation(playerid, "PED", "ATM", 4.1, 0, 1, 1, 0, 1, 1);
+            RemovePlayerAttachedObject(playerid, 9);
+            phoneinfo[playerid][pAttached] = 0;
             phonecall(playerid);
         }
 
@@ -2211,7 +2297,6 @@ hook OnPlayerKeyStateChange(playerid, KEY:newkeys, KEY:oldkeys)
         else
         {
             phonecall(playerid);
-
         }
     }
     return 1;
@@ -2225,10 +2310,11 @@ stock phonecall(playerid)
         PhoneHomeScreen(playerid, false);
         SelectTextDraw(playerid, 0x5EC4FF);
         phoneStatus[playerid][PHONE_SHOWN] = true;
-
+        phonebodytog(playerid);
     }
     else
     {
+        phonebodytog(playerid);
         if (phoneStatus[playerid][PHONE_CALCULATOR_SHOWN])
         {
             PhoneCalculator(playerid, true);
@@ -2264,7 +2350,22 @@ stock phonecall(playerid)
     }
 
 }
-
+phonebodytog(playerid)
+{
+    if (GetPlayerState(playerid) == PLAYER_STATE_ONFOOT)
+    {
+        if (phoneinfo[playerid][pAttached] != 1)
+        {
+            SetPlayerAttachedObject(playerid, 9, phoneinfo[playerid][pModel], phoneinfo[playerid][pBone], phoneinfo[playerid][pPosX], phoneinfo[playerid][pPosY], phoneinfo[playerid][pPosZ], phoneinfo[playerid][pRotX], phoneinfo[playerid][pRotY], phoneinfo[playerid][pRotZ], phoneinfo[playerid][pScaleX], phoneinfo[playerid][pScaleY], phoneinfo[playerid][pScaleZ]);
+            phoneinfo[playerid][pAttached] = 1;
+        }
+        else
+        {
+            RemovePlayerAttachedObject(playerid, 9);
+            phoneinfo[playerid][pAttached] = 0;
+        }
+    }
+}
 ChangePhonePos(playerid, bool:Hide)
 {
     if (!Hide)
@@ -2365,26 +2466,35 @@ YCMD:phone(playerid, params[], help)
     return 1;
 }
 
-YCMD:ch(playerid, params[], help)
+YCMD:phb(playerid, params[], help)
 {
-    new Float:ppx, Float:ppy;
-    if (sscanf(params, "ff", ppx, ppy))
-    {
-        return SendClientMessage(playerid, -1, "use /ch px val py val");
-    }
 
-
-    phoneinfo[playerid][phx] = ppx;
-    phoneinfo[playerid][phy] = ppy;
-
-    mysql_format(SQLConnectionId, queryBuffer, sizeof(queryBuffer), "UPDATE phone SET phx = %f, phy = %f", ppx, ppy);
-    mysql_tquery(SQLConnectionId, queryBuffer);
-    SendClientMessage(playerid, -1, "value seted");
+    ShowPlayerDialog(playerid, DIALOG_PHONEBODYEDIT, DIALOG_STYLE_LIST, "Edition menu", "Edit offset\nChange bone\nReset settings", "Select", "Cancel");
 
     return 1;
 }
-YCMD:can(playerid, params[], help)
+
+hook OnPlayerEditAttachedObject(playerid, EDIT_RESPONSE:response, index, modelid, boneid, Float:fOffsetX, Float:fOffsetY, Float:fOffsetZ, Float:rotationX, Float:rotationY, Float:rotationZ, Float:scaleX, Float:scaleY, Float:scaleZ)
 {
-    ChangePhonePos(playerid, true);
+    if (response)
+    {
+        phoneinfo[playerid][pModel] = modelid;
+        phoneinfo[playerid][pBone] = boneid;
+        phoneinfo[playerid][pPosX] = fOffsetX;
+        phoneinfo[playerid][pPosY] = fOffsetY;
+        phoneinfo[playerid][pPosZ] = fOffsetZ;
+        phoneinfo[playerid][pRotX] = rotationX;
+        phoneinfo[playerid][pRotY] = rotationY;
+        phoneinfo[playerid][pRotZ] = rotationZ;
+        phoneinfo[playerid][pScaleX] = scaleX;
+        phoneinfo[playerid][pScaleY] = scaleY;
+        phoneinfo[playerid][pScaleZ] = scaleZ;
+
+        mysql_format(SQLConnectionId, queryBuffer, sizeof(queryBuffer), "UPDATE phone SET pos_x = '%f', pos_y = '%f', pos_z = '%f', rot_x = '%f', rot_y = '%f', rot_z = '%f', scale_x = '%f', scale_y = '%f', scale_z = '%f' ", fOffsetX, fOffsetY, fOffsetZ, rotationX, rotationY, rotationZ, scaleX, scaleY, scaleZ);
+        mysql_tquery(SQLConnectionId, queryBuffer);
+
+        SendClientMessage(playerid, COLOR_GREY, "Changes saved.");
+        RemovePlayerAttachedObject(playerid, 9);
+    }
     return 1;
 }

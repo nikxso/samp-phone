@@ -2136,7 +2136,7 @@ hook OnPlayerClickPlayerTextDraw(playerid, PlayerText:playertextid)
             }
             else if (isnull(Musicinfo[playerid][songUrl]))
             {
-                SendClientMessage(playerid, -1, "Selete a music before start/stop");
+                SendClientMessage(playerid, -1, "Select a music before start/stop");
             }
             else
             {
@@ -2301,7 +2301,6 @@ hook OnPlayerKeyStateChange(playerid, KEY:newkeys, KEY:oldkeys)
     }
     return 1;
 }
-
 stock phonecall(playerid)
 {
 
@@ -2311,6 +2310,7 @@ stock phonecall(playerid)
         SelectTextDraw(playerid, 0x5EC4FF);
         phoneStatus[playerid][PHONE_SHOWN] = true;
         phonebodytog(playerid);
+        SendClientMessage(playerid,-1,"Hello");
     }
     else
     {

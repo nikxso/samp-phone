@@ -1,0 +1,4 @@
+AddSimpleModel(-1, 2717, -1005, "blankref.dff", "phone-body.txd");
+AddSimpleModel(-1, 2717, -1006, "blankref.dff", "phone-icons.txd");
+AddSimpleModel(-1, 2717, -1007, "blankref.dff", "phone-battery.txd");
+AddSimpleModel(-1, 18866, -1008, "phone.dff", "phone.txd");

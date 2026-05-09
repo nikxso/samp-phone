@@ -8,6 +8,7 @@ Adapt it to your own gamemode however you want
 
 Adding into Your gamemode 
 ```C
+#include <YSI_Coding\y_hooks>
 #include "script/phone.pwn"
  ```
 then import Sql and define the Connection like
